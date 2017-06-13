@@ -7,35 +7,45 @@ class Maze {
     private int[][] mazeMatrix;
     private Path mazeFilePath;
 
-    public int[][] getMazeMatrix(){
+    public int[][] getMazeMatrix() {
         return this.mazeMatrix;
     }
-    public int getMazeMatrixLength(){
+
+    public int getMazeMatrixLength() {
         return this.mazeMatrix.length;
     }
-    public void constructMazeMatrix(){
+
+    public void constructMazeMatrix() {
         this.mazeMatrix = GetRGBFast.convertToIntMatrix(Utils.createBufferedImage(mazeFilePath));
     }
-    public Path getMazeFilePath(){return this.mazeFilePath; }
-    public void setMazeFilePath(Path filePath){
+
+    public Path getMazeFilePath() {
+        return this.mazeFilePath;
+    }
+
+    public void setMazeFilePath(Path filePath) {
         this.mazeFilePath = filePath;
     }
+
     public void printMazeMatrix() {
         Utils.printIntMatrix(this.mazeMatrix);
     }
-    public void printAllNodeData(){
-        for (int i=0; i < nodes.size(); i++){
+
+    public void printAllNodeData() {
+        for (int i = 0; i < nodes.size(); i++) {
             System.out.println("-----------------");
-            System.out.println("node: "+i);
+            System.out.println("node: " + i);
             nodes.get(i).printNodeValues();
         }
     }
-    public List<MazeNode> getNodes(){
+
+    public List<MazeNode> getNodes() {
         return this.nodes;
     }
-    public MazeNode searchForNodeByNodePosition(int[] position){
-        for(MazeNode node : this.getNodes()){
-            if (Arrays.equals(node.getPosition(), position)){
+
+    public MazeNode searchForNodeByNodePosition(int[] position) {
+        for (MazeNode node : this.getNodes()) {
+            if (Arrays.equals(node.getPosition(), position)) {
                 return node;
             }
         }
@@ -52,11 +62,11 @@ class Maze {
         private boolean visited = false;
         private MazeNode parent = null;
 
-        public MazeNode(int[] positionVal){
+        public MazeNode(int[] positionVal) {
             position = positionVal;
         }
 
-        public void printNodeValues(){
+        public void printNodeValues() {
             System.out.println("Position: " + Arrays.toString(this.position));
             System.out.println("Distance from start: " + distanceFromStart);
             System.out.println("Visited: " + visited);
@@ -70,48 +80,58 @@ class Maze {
             }
         }
 
-        public int[]      getPosition(){
+        public int[] getPosition() {
             return this.position;
         }
-        public int[][]    getArrayOfNeighbors(){
+
+        public int[][] getArrayOfNeighbors() {
             return this.neighbors;
         }
-        public MazeNode[] getArrayOfNeighborNodes(){
+
+        public MazeNode[] getArrayOfNeighborNodes() {
             return this.neighborNodes;
         }
-        public int[]      getANeighborsYX(int neighbor){
+
+        public int[] getANeighborsYX(int neighbor) {
             return copyOfRange(this.neighbors[neighbor], 0, 2);
         }
 
-        public void       addNeighbor(int cardinalDirectionIndex, int[] neighborInfo){
+        public void addNeighbor(int cardinalDirectionIndex, int[] neighborInfo) {
             this.neighbors[cardinalDirectionIndex] = neighborInfo;
         }
-        public void       addNeighborNode(int cardinalDirectionIndex, MazeNode neighborNode){
+
+        public void addNeighborNode(int cardinalDirectionIndex, MazeNode neighborNode) {
             this.neighborNodes[cardinalDirectionIndex] = neighborNode;
         }
-        public boolean    getVisited(){
+
+        public boolean getVisited() {
             return this.visited;
         }
-        public void       setVisited(boolean input){
+
+        public void setVisited(boolean input) {
             this.visited = input;
         }
-        public int        getDistanceFromStart(){
+
+        public int getDistanceFromStart() {
             return this.distanceFromStart;
         }
-        public void       setDistanceFromStart(int input){
+
+        public void setDistanceFromStart(int input) {
             this.distanceFromStart = input;
         }
-        public void       setParent(MazeNode parentNode){
+
+        public void setParent(MazeNode parentNode) {
             this.parent = parentNode;
         }
-        public MazeNode   getParent(){
+
+        public MazeNode getParent() {
             return this.parent;
         }
 
 
     }
 
-    public void findAndConnectNodes(){
+    public void findAndConnectNodes() {
         final int WHITE = 1;
         final int BLACK = 0;
 
@@ -124,25 +144,25 @@ class Maze {
         verticalDistanceFromLastNode[startNodeXCoordinate] += 1;
 
 
-        for (int y=1; y < (this.mazeMatrix.length-1); y++){ // skip first and last row
+        for (int y = 1; y < (this.mazeMatrix.length - 1); y++) { // skip first and last row
 
             horizontalDistanceFromLastNode = 0; //clear for each row
 
 
-            for (int x=1; x < ((this.mazeMatrix[y].length)-1); x++){
-                int westPixel = this.mazeMatrix[y][x-1];
+            for (int x = 1; x < ((this.mazeMatrix[y].length) - 1); x++) {
+                int westPixel = this.mazeMatrix[y][x - 1];
                 int currentPixel = this.mazeMatrix[y][x];
-                int eastPixel = this.mazeMatrix[y][x+1];
+                int eastPixel = this.mazeMatrix[y][x + 1];
 
 
                 if (currentPixel == WHITE) {
 
-                    if (westPixel == WHITE){
-                        if (eastPixel == WHITE){
+                    if (westPixel == WHITE) {
+                        if (eastPixel == WHITE) {
 
                             // white white white
                             // check up and down if either are white create node
-                            if ((this.mazeMatrix[y+1][x] == WHITE) || (this.mazeMatrix[y-1][x] == WHITE)){
+                            if ((this.mazeMatrix[y + 1][x] == WHITE) || (this.mazeMatrix[y - 1][x] == WHITE)) {
                                 nodes.add(new MazeNode(new int[]{y, x}));
                                 connectNeighbors(y, x, horizontalDistanceFromLastNode, verticalDistanceFromLastNode[x]);
 
@@ -161,7 +181,7 @@ class Maze {
                         horizontalDistanceFromLastNode += 1; // west is WHITE
 
                     } else { // westPixel == BLACK
-                        if (eastPixel == WHITE){
+                        if (eastPixel == WHITE) {
                             // black white white
                             nodes.add(new MazeNode(new int[]{y, x}));
 
@@ -172,7 +192,7 @@ class Maze {
 
                         } else { // eastPixel == BLACK
                             // black white black
-                            if ((this.mazeMatrix[y+1][x] == BLACK) || (this.mazeMatrix[y-1][x] == BLACK)){
+                            if ((this.mazeMatrix[y + 1][x] == BLACK) || (this.mazeMatrix[y - 1][x] == BLACK)) {
                                 nodes.add(new MazeNode(new int[]{y, x}));
 
                                 connectNeighbors(y, x, horizontalDistanceFromLastNode, verticalDistanceFromLastNode[x]);
@@ -182,7 +202,7 @@ class Maze {
                             }
                         }
                     }
-                    verticalDistanceFromLastNode[x] ++;
+                    verticalDistanceFromLastNode[x]++;
 
                 } else {
                     horizontalDistanceFromLastNode = 0; // on wall
@@ -196,32 +216,32 @@ class Maze {
 
     }
 
-    private void findStart(){
+    private void findStart() {
         int xPositionCounter = 0;
-        for (int pixel : this.mazeMatrix[0]){
-            if (pixel == 1){ // white pixel
+        for (int pixel : this.mazeMatrix[0]) {
+            if (pixel == 1) { // white pixel
                 MazeNode startNode = new MazeNode(new int[]{0, xPositionCounter});
                 startNode.setDistanceFromStart(0);
                 nodes.add(startNode);
             }
-            xPositionCounter ++;
+            xPositionCounter++;
         }
     }
 
-    private void findEnd(int[] verticalDistanceFromLastNode){
+    private void findEnd(int[] verticalDistanceFromLastNode) {
         int xPositionCounter = 0;
-        for (int pixel : this.mazeMatrix[mazeMatrix.length-1]){
-            if (pixel == 1){ // white pixel
-                MazeNode endNode = new MazeNode(new int[]{mazeMatrix.length-1, xPositionCounter});
+        for (int pixel : this.mazeMatrix[mazeMatrix.length - 1]) {
+            if (pixel == 1) { // white pixel
+                MazeNode endNode = new MazeNode(new int[]{mazeMatrix.length - 1, xPositionCounter});
                 nodes.add(endNode);
 
-                connectNeighbors(mazeMatrix.length-1, xPositionCounter, 0, verticalDistanceFromLastNode[xPositionCounter]);
+                connectNeighbors(mazeMatrix.length - 1, xPositionCounter, 0, verticalDistanceFromLastNode[xPositionCounter]);
             }
-            xPositionCounter ++;
+            xPositionCounter++;
         }
     }
 
-    private void connectNeighbors(int y, int x, int horizontalDistanceFromLastNode, int verticalDistanceFromLastNodeAtCurrentNodesX){
+    private void connectNeighbors(int y, int x, int horizontalDistanceFromLastNode, int verticalDistanceFromLastNodeAtCurrentNodesX) {
         if (horizontalDistanceFromLastNode > 0) {
             connectNeighborsInXPlane(y, x, horizontalDistanceFromLastNode);
         }
@@ -230,34 +250,34 @@ class Maze {
         }
     }
 
-    private void connectNeighborsInXPlane(int y, int x, int horizontalDistanceFromLastNode){
-            int neighborsX = x - horizontalDistanceFromLastNode;
-            // add connection neighbor --> current node
-            MazeNode currentNode = nodes.get(nodes.size()-1);
-            currentNode.addNeighbor(3, new int[]{y, neighborsX, horizontalDistanceFromLastNode});
-            currentNode.addNeighborNode(3, this.searchForNodeByNodePosition(new int[]{y, neighborsX}));
-            // add connection neighbor <-- current node
-            MazeNode lastNode = nodes.get(nodes.size()-2);
-            lastNode.addNeighbor(1, new int[]{y, x, horizontalDistanceFromLastNode});
-            lastNode.addNeighborNode(1, this.searchForNodeByNodePosition(new int[]{y, x}));
+    private void connectNeighborsInXPlane(int y, int x, int horizontalDistanceFromLastNode) {
+        int neighborsX = x - horizontalDistanceFromLastNode;
+        // add connection neighbor --> current node
+        MazeNode currentNode = nodes.get(nodes.size() - 1);
+        currentNode.addNeighbor(3, new int[]{y, neighborsX, horizontalDistanceFromLastNode});
+        currentNode.addNeighborNode(3, this.searchForNodeByNodePosition(new int[]{y, neighborsX}));
+        // add connection neighbor <-- current node
+        MazeNode lastNode = nodes.get(nodes.size() - 2);
+        lastNode.addNeighbor(1, new int[]{y, x, horizontalDistanceFromLastNode});
+        lastNode.addNeighborNode(1, this.searchForNodeByNodePosition(new int[]{y, x}));
 
     }
 
-    private void connectNeighborsInYPlane(int y, int x, int verticalDistanceFromLastNodeAtCurrentNodesX){
-            int neighborsY = y - verticalDistanceFromLastNodeAtCurrentNodesX;
+    private void connectNeighborsInYPlane(int y, int x, int verticalDistanceFromLastNodeAtCurrentNodesX) {
+        int neighborsY = y - verticalDistanceFromLastNodeAtCurrentNodesX;
         // add connection neighbor --> current node
-            MazeNode currentNode = nodes.get(nodes.size()-1);
-            currentNode.addNeighbor(0, new int[]{neighborsY, x, verticalDistanceFromLastNodeAtCurrentNodesX});
-            currentNode.addNeighborNode(0, this.searchForNodeByNodePosition(new int[]{neighborsY, x}));
+        MazeNode currentNode = nodes.get(nodes.size() - 1);
+        currentNode.addNeighbor(0, new int[]{neighborsY, x, verticalDistanceFromLastNodeAtCurrentNodesX});
+        currentNode.addNeighborNode(0, this.searchForNodeByNodePosition(new int[]{neighborsY, x}));
 
         // add connection neighbor <-- current node
-            Iterator<MazeNode> nodesIterator = this.nodes.iterator();
-            while (nodesIterator.hasNext()) {
-                MazeNode aNode = nodesIterator.next();
-                if (Arrays.equals(aNode.getPosition(), new int[]{neighborsY, x})){
-                    aNode.addNeighbor(2, new int[]{y ,x, verticalDistanceFromLastNodeAtCurrentNodesX});
-                    aNode.addNeighborNode(2, this.searchForNodeByNodePosition(new int[]{y, x}));
-                }
+        Iterator<MazeNode> nodesIterator = this.nodes.iterator();
+        while (nodesIterator.hasNext()) {
+            MazeNode aNode = nodesIterator.next();
+            if (Arrays.equals(aNode.getPosition(), new int[]{neighborsY, x})) {
+                aNode.addNeighbor(2, new int[]{y, x, verticalDistanceFromLastNodeAtCurrentNodesX});
+                aNode.addNeighborNode(2, this.searchForNodeByNodePosition(new int[]{y, x}));
             }
+        }
     }
 }
