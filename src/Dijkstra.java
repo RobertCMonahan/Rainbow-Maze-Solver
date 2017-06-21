@@ -13,27 +13,23 @@ class Dijkstra {
         // parents node needs to be tracked (use set parent)
 
         //put all nodes into unsettled nodes
-        List<Maze.MazeNode> unsettledNodes = maze.getNodes();
+        List<Maze.MazeNode> nodes = maze.getNodes();
+        List<Maze.MazeNode> unsettledNodes = new ArrayList<Maze.MazeNode>();
+        unsettledNodes.add(nodes.get(0)); // add start node to unsettledNodes
+
         List<Maze.MazeNode> settledNodes = null;
 
         while (!unsettledNodes.isEmpty()) {
             Maze.MazeNode evaluationNode = getNodeWithLowestDistance(unsettledNodes);
-            //remove evaluationNode from UnSettledNodes
-            //mark evaluationNode as visited
             unsettledNodes.remove(evaluationNode);
-            //mark evaluationNode as visited
             settledNodes.add(evaluationNode);
             evaluatedNeighbors(evaluationNode, settledNodes);
-            settledNodes.add(evaluationNode);
         }
         return false;
     }
 
     private static Maze.MazeNode getNodeWithLowestDistance(List<Maze.MazeNode> unsettledNodes){
-            //find the node with the lowest distance in UnSettledNodes and return it
-            //this would be the place to have a heap in place of the for loop (which is horribly ineffecent)
-            //fibinacci heap most likly thats what was used for the computerphile video on maze solvers
-            //although I should check to make sure binomial wont work (maybe I'll implemnt both and see which is faster)
+            //should change for loop too a fib or binomal heap for improved preformance
             Maze.MazeNode shortestNode = null;
             int shortestDistance = Integer.MAX_VALUE;
             for(Maze.MazeNode node:unsettledNodes){
@@ -60,7 +56,11 @@ class Dijkstra {
 //            }
         for (Maze.MazeNode neighborNode : evaluationNode.getArrayOfNeighborNodes()){
             if (settledNodes.indexOf(neighborNode) == -1){ //if neigborNode is unsettled
-                edgeDistance
+                int distanceToNeighbor = getDistance(evaluationNode, neighborNode);
+                int neighborsDistanceFromStart = evaluationNode.getDistanceFromStart() + distanceToNeighbor;
+                if (neighborsDistanceFromStart <= neighborNode.getDistanceFromStart()) {
+                    neighborNode.setDistanceFromStart(neighborsDistanceFromStart);
+                }
             }
         }
 
