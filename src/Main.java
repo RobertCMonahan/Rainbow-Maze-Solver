@@ -19,11 +19,13 @@ public class Main {
             Maze mazeToSolve = new Maze();
             mazeToSolve.setMazeFilePath(Paths.get(mazeFilename));
             mazeToSolve.constructMazeMatrix();
+            Dijkstra dijkstraSearch = new Dijkstra();
 
             switch (pathfinderAlgorithm) {
                 case "leftturn": LeftTurn.search(mazeToSolve);
                     break;
-                case "dijkstra": Dijkstra.search(mazeFilePath);
+
+                case "dijkstra": dijkstraSearch.search(mazeToSolve);
                     break;
                 case "a*": AStar.search(mazeFilePath);
                     break;
