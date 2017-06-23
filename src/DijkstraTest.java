@@ -47,6 +47,15 @@ class DijkstraTest {
         return combo400Maze;
     }
 
+    private Maze buildperfect2kMaze() {
+        Maze perfect2kMaze = new Maze();
+        perfect2kMaze.setMazeFilePath(Paths.get("test-images/perfect2k.png"));
+        perfect2kMaze.constructMazeMatrix();
+        perfect2kMaze.findAndConnectNodes();
+        return perfect2kMaze;
+    }
+
+
     private Maze buildbraid2kMaze() {
         Maze braid2kMaze = new Maze();
         braid2kMaze.setMazeFilePath(Paths.get("test-images/braid2k.png"));
@@ -87,12 +96,20 @@ class DijkstraTest {
         assertEquals(true, reachedEnd, "If the DepthFirst Search reached the end");
     }
 
+    @Test
+    void testSearchCombo400() {
+        Maze c400maze = buildcombo400Maze();
+        Dijkstra dijkstraSearch = new Dijkstra();
+        boolean reachedEnd = dijkstraSearch.search(c400maze);
+        assertEquals(true, reachedEnd, "If the DepthFirst Search reached the end");
+    }
+//    // Still can't solve the larger mazes still not sure why, although it's possible im just not letting it run long enough
 //    @Test
-//    void testSearchCombo400() {
-//        Maze c400maze = buildcombo400Maze();
+//    void testSearchPerfect2k() {
+//        Maze perfect2kMaze = buildperfect2kMaze();
 //        Dijkstra dijkstraSearch = new Dijkstra();
-//        boolean reachedEnd = dijkstraSearch.search(c400maze);
-//        assertEquals(true, reachedEnd, "If the DepthFirst Search reached the end");
+//        boolean reachedEnd = dijkstraSearch.search(perfect2kMaze);
+//        assertEquals(true, reachedEnd, "If the LeftTurn Search reached the end");
 //    }
 //
 //    @Test

@@ -6,6 +6,8 @@ class Dijkstra {
     private List<Maze.MazeNode> unsettledNodes = new ArrayList<Maze.MazeNode>();
     private List<Maze.MazeNode> settledNodes = new ArrayList<Maze.MazeNode>();
 
+    DrawPathThoughMaze drawing = new DrawPathThoughMaze();
+
     protected boolean search(Maze maze) {
         final long START_TIME = System.nanoTime();
         System.out.println("Dijkstra");
@@ -13,7 +15,7 @@ class Dijkstra {
         int mazeExit; //called bottom of maze in other algrothims
 
         // Set up drawing for image output of the solution
-        DrawPathThoughMaze drawing = new DrawPathThoughMaze();
+        drawing.setIncrement(3);
         drawing.createColorImage(maze);
         drawing.setOutputImagePath("Dijkstra_" + maze.getMazeMatrixLength());
 
@@ -73,6 +75,7 @@ class Dijkstra {
                     neighborNode.setParent(evaluationNode);
                     unsettledNodes.add(neighborNode);
                     neighborNode.setParent(evaluationNode);
+                    drawing.colorLine(evaluationNode.getPosition()[1], evaluationNode.getPosition()[0], neighborNode.getPosition()[1], neighborNode.getPosition()[0]);
                 }
             }
         }

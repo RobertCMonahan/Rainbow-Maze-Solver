@@ -52,9 +52,14 @@ public class DrawPathThoughMaze {
         }
     }
 
-    public void setIncrement(int totalNumberOfNodesInSolution) {
-        // (red - blue) / totalNumberOfNodesInSolution
-        this.increment = (16529464 - 3701244) / totalNumberOfNodesInSolution;
+//    public void setIncrementByMazeSize(int totalNumberOfNodesInSolution) {
+//        // (red - blue) / totalNumberOfNodesInSolution
+//        this.increment = (16529464 - 3701244) / totalNumberOfNodesInSolution;
+//    }
+
+    protected void setIncrement(int incrementValue){
+        this.increment = incrementValue;
+        this.greenIncrement = -increment;
     }
 
     public void setOutputImagePath(String imagePath) {
@@ -67,13 +72,6 @@ public class DrawPathThoughMaze {
         this.increment = 0;
         colorRGB = new int[]{0, 255, 0};
         colorIsChanging = false;
-    }
-
-    public void setColorToChange(int totalNumberOfNodesInSolution) {
-        // (red - blue) / totalNumberOfNodesInSolution
-        this.increment = 1;
-        colorRGB = new int[]{0, 0, 255};
-        colorIsChanging = true;
     }
 
     private void incrementColor() {
