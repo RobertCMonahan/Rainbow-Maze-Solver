@@ -33,19 +33,19 @@ public class Utils {
      * Creates and returns an ArrayList of the nodes location [y,x].
      * Also draws a green line of the path followed into the drawing given.
      *
-     * @param  exitNode   A Maze.MazeNode object, that you want a path too
+     * @param  exitNode   A MazeNode object, that you want a path too
      * @param  drawing    the drawing you want to draw the green line which follows that path.
      * @return            ArrayList of node locations in the format int[y,x] from exitNode to the last node with a
      *                    parent (usually the startNode).
      */
-    protected static List<int[]> getAndDrawSolutionPath(Maze.MazeNode exitNode, DrawPathThoughMaze drawing) {
+    protected static List<int[]> getAndDrawSolutionPath(MazeNode exitNode, DrawPathThoughMaze drawing) {
         drawing.setColorToGreen();
         List<int[]> shortestPath = new ArrayList<int[]>();
         shortestPath.add(exitNode.getPosition());
 
-        Maze.MazeNode currentNode = exitNode;
+        MazeNode currentNode = exitNode;
         while (currentNode.getDistanceFromStart() > 0) {
-            Maze.MazeNode parent = currentNode.getParent();
+            MazeNode parent = currentNode.getParent();
             shortestPath.add(parent.getPosition());
 
             int[] lastCoords = parent.getPosition();

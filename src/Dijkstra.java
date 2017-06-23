@@ -3,10 +3,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 class Dijkstra {
-    private List<Maze.MazeNode> unsettledNodes = new ArrayList<Maze.MazeNode>();
-    private List<Maze.MazeNode> settledNodes = new ArrayList<Maze.MazeNode>();
+    private List<MazeNode> unsettledNodes = new ArrayList<MazeNode>();
+    private List<MazeNode> settledNodes = new ArrayList<MazeNode>();
 
-    DrawPathThoughMaze drawing = new DrawPathThoughMaze();
+    private DrawPathThoughMaze drawing = new DrawPathThoughMaze();
 
     protected boolean search(Maze maze) {
         final long START_TIME = System.nanoTime();
@@ -27,7 +27,7 @@ class Dijkstra {
 
         // continuously look though unsettled list until there are no nodes left or a solution is found
         while (!unsettledNodes.isEmpty()) {
-            Maze.MazeNode evaluationNode = getNodeWithLowestDistance();
+            MazeNode evaluationNode = getNodeWithLowestDistance();
 
             if (evaluationNode.getPosition()[0] == mazeExit) { // at end node
                 System.out.println("Found End!");
@@ -49,11 +49,11 @@ class Dijkstra {
         return false;
     }
 
-    private Maze.MazeNode getNodeWithLowestDistance() {
+    private MazeNode getNodeWithLowestDistance() {
         //should change for loop too a fib or binomal heap for improved preformance
-        Maze.MazeNode shortestNode = null;
+        MazeNode shortestNode = null;
         int shortestDistance = Integer.MAX_VALUE;
-        for (Maze.MazeNode node : unsettledNodes) {
+        for (MazeNode node : unsettledNodes) {
             if (node.getDistanceFromStart() <= shortestDistance) {
                 shortestDistance = node.getDistanceFromStart();
                 shortestNode = node;
@@ -65,8 +65,8 @@ class Dijkstra {
         return shortestNode;
     }
 
-    private void evaluateNeighbors(Maze.MazeNode evaluationNode) {
-        for (Maze.MazeNode neighborNode : evaluationNode.getArrayOfNeighborNodes()) {
+    private void evaluateNeighbors(MazeNode evaluationNode) {
+        for (MazeNode neighborNode : evaluationNode.getArrayOfNeighborNodes()) {
             if ((settledNodes.indexOf(neighborNode) == -1)  && (neighborNode != null))  { // if neighborNode is not settled
                 int distanceToNeighbor = getDistance(evaluationNode, neighborNode);
                 int neighborsDistanceFromStart = evaluationNode.getDistanceFromStart() + distanceToNeighbor;
@@ -80,7 +80,7 @@ class Dijkstra {
             }
         }
     }
-    private int getDistance(Maze.MazeNode evaluationNode, Maze.MazeNode neighborNode){
+    private int getDistance(MazeNode evaluationNode, MazeNode neighborNode){
          int yDistance = evaluationNode.getPosition()[0] - neighborNode.getPosition()[0];
          int xDistance = evaluationNode.getPosition()[1] - neighborNode.getPosition()[1];
          return Math.abs(yDistance) + Math.abs(xDistance);
