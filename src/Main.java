@@ -20,23 +20,7 @@ public class Main {
             mazeToSolve.setMazeFilePath(Paths.get(mazeFilename));
             mazeToSolve.constructMazeMatrix();
             Dijkstra dijkstraSearch = new Dijkstra();
-
-            switch (pathfinderAlgorithm) {
-                case "leftturn": LeftTurn.search(mazeToSolve);
-                    break;
-
-                case "dijkstra": dijkstraSearch.search(mazeToSolve);
-                    break;
-                case "a*": AStar.search(mazeFilePath);
-                    break;
-                case "depthfirst": DepthFirst.search(mazeToSolve);
-                    break;
-                case "breadthfirst": BreadthFirst.search(mazeToSolve);
-                    break;
-                default: LeftTurn.search(mazeToSolve);
-                    break;
-            }
-
+            dijkstraSearch.search(mazeToSolve);
 
         } else { // too many args
             PrintHelpMessage.help();
