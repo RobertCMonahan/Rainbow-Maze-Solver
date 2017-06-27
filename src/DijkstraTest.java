@@ -86,6 +86,25 @@ class DijkstraTest {
         return combo400Maze;
     }
 
+    private Maze buildnonStandard() {
+        final long START_TIME_BUILD = System.nanoTime();
+
+        Maze braid2kMaze = new Maze();
+        braid2kMaze.setMazeFilePath(Paths.get("test-images/black_and_white_maze_tiny.gif"));
+        braid2kMaze.constructMazeMatrix();
+        final long ELAPSED_TIME_CONST = System.nanoTime() - START_TIME_BUILD;
+        double elapsedTimeInSeconds1 = (double) ELAPSED_TIME_CONST / 1000000000.0;
+        System.out.println(elapsedTimeInSeconds1 + " seconds to build construct matrix");
+        braid2kMaze.findAndConnectNodes();
+
+        final long ELAPSED_TIME_BUILD = System.nanoTime() - START_TIME_BUILD;
+        double elapsedTimeInSeconds2 = (double) ELAPSED_TIME_BUILD / 1000000000.0;
+        System.out.println(elapsedTimeInSeconds2 + " seconds to build maze");
+
+        return braid2kMaze;
+
+    }
+
     private Maze buildperfect2kMaze() {
         final long START_TIME_BUILD = System.nanoTime();
         Maze perfect2kMaze = new Maze();
@@ -160,6 +179,15 @@ class DijkstraTest {
         boolean reachedEnd = dijkstraSearch.search(c400maze);
         assertEquals(true, reachedEnd, "If the DepthFirst Search reached the end");
     }
+
+    @Test
+    void testSearchNonStardard() {
+        Maze nonStandard = buildnonStandard();
+        Dijkstra dijkstraSearch = new Dijkstra();
+        boolean reachedEnd = dijkstraSearch.search(nonStandard);
+        assertEquals(true, reachedEnd, "If the LeftTurn Search reached the end");
+    }
+
     // Still can't solve the larger mazes still not sure why, although it's possible im just not letting it run long enough
     @Test
     void testSearchPerfect2k() {

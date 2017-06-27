@@ -6,9 +6,16 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 public class Utils {
+    /**
+     * prints out a matrix to the console in the same format as the matrix is in. Each line of the matrix is printed on
+     * a new line in the console
+     *
+     * @param matrix int[][] that you want to print to the console
+     */
     public static void printIntMatrix(int[][] matrix){
         for (int[] row : matrix) {
             for (int item : row) {
@@ -18,6 +25,12 @@ public class Utils {
         }
     }
 
+    /**
+     * Creates a BufferedImage from a files Path.
+     *
+     * @param mazeFilePath Path of the file you would like to create of buffered image of
+     * @return BufferedImage
+     */
     public static BufferedImage createBufferedImage(Path mazeFilePath){
         BufferedImage image = null;
         try {
@@ -65,4 +78,23 @@ public class Utils {
 
     }
 
+    /**
+     * Courtisty of the fine people at StackOverFlow
+     * https://stackoverflow.com/questions/718554/how-to-convert-an-arraylist-containing-integers-to-primitive-int-array
+     * special thanks to Jon Skeet, Marek Sebera, and Matthew Willis.
+     *
+     * Converts a List<Integer> to a primitive type int[]
+     * @param integers          must be a ArrayList of type Integer
+     * @return                  an int array
+     */
+    public static int[] convertIntegersListToIntArray(List<Integer> integers)
+    {
+        int[] ret = new int[integers.size()];
+        Iterator<Integer> iterator = integers.iterator();
+        for (int i = 0; i < ret.length; i++)
+        {
+            ret[i] = iterator.next().intValue();
+        }
+        return ret;
+    }
 }
