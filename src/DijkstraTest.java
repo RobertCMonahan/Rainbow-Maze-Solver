@@ -90,7 +90,7 @@ class DijkstraTest {
         final long START_TIME_BUILD = System.nanoTime();
 
         Maze braid2kMaze = new Maze();
-        braid2kMaze.setMazeFilePath(Paths.get("test-images/black_and_white_maze_tiny.gif"));
+        braid2kMaze.setMazeFilePath(Paths.get("test-images/test700x700.png"));
         braid2kMaze.constructMazeMatrix();
         final long ELAPSED_TIME_CONST = System.nanoTime() - START_TIME_BUILD;
         double elapsedTimeInSeconds1 = (double) ELAPSED_TIME_CONST / 1000000000.0;

@@ -8,35 +8,24 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PreproccessImageTest {
 
-
-
     @Test
-    void testPreproccessingHasNoErrors() {
-        Path imagePath = get("/home/emerald/Projects/Rainbow-Maze-Solver/test-images/black_and_white_maze_tiny.gif");
-        boolean noErrors = PreproccessImage.convertImageToBinaryBlackAndWhite(imagePath);
-        assertEquals(true, noErrors, "there were no errors will preproccessing the image");
-    }
-//
-//    @Test
-//    void testIfOutImageIsBinary(){
-//        Path imagePath = get("/home/emerald/Projects/Rainbow-Maze-Solver/out/out-images/test569x569.png");
-//        int[][] matrix = GetRGBFast.convertToIntMatrix(Utils.createBufferedImage(imagePath));
-//        Utils.printIntMatrix(matrix);
-//        assertEquals(1, matrix[0][0], "the top left pixel of the output image is white 1 ");
-//    }
+    void outputIsBinary(){
+        Path inputImagePath = get("/home/emerald/Projects/Rainbow-Maze-Solver/test-images/maze_small.jpg");
+        PreproccessImage.preproccessImage(inputImagePath, "test");
 
-    @Test
-    void testPreproccessingHasNoErrors2() {
-        Path imagePath = get("/home/emerald/Projects/Rainbow-Maze-Solver/test-images/maze_small.jpg");
-        boolean noErrors = PreproccessImage.convertImageToBinaryBlackAndWhite(imagePath);
-        assertEquals(true, noErrors, "there were no errors will preproccessing the image");
-    }
+        Path outputImagePath = get("/home/emerald/Projects/Rainbow-Maze-Solver/test-images/test700x700.png");
 
-    @Test
-    void testIfOutImageIsBinary2(){
-        Path imagePath = get("/home/emerald/Projects/Rainbow-Maze-Solver/out/out-images/test700x700.png");
-        int[][] matrix = GetRGBFast.convertToIntMatrix(Utils.createBufferedImage(imagePath));
-        Utils.printIntMatrix(matrix);
-        assertEquals(1, matrix[0][0], "the top left pixel of the output image is white 1 ");
+        boolean isBinary = true;
+        int[][] matrix = GetRGBFast.convertToIntMatrix(Utils.createBufferedImage(outputImagePath));
+        for (int[] line : matrix){
+            for (int pixel: line){
+                if ((pixel >= 2)||(pixel <= -1)){
+                // if pixel is not 0 or 1
+                    isBinary = false;
+                }
+            }
+        }
+        //Utils.printIntMatrix(matrix);
+        assertEquals(true, isBinary, "output image contains pixels that are not 1 or 0");
     }
 }
