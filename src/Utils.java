@@ -103,7 +103,8 @@ public class Utils {
      * @return Map<Integer, Integer>    Each Key is the an int from the int[] and the Value is the number of times that int occurs in the array.
      */
     public static Map<Integer, Integer> countOccurrence(int[] numbersToProcess) {
-        int[] possibleNumbers = new int[100];
+        int imageWidth = getImageWidth();
+        int[] possibleNumbers = new int[imageWidth];
         Map<Integer, Integer> result = new HashMap<Integer, Integer>();
 
         for (int i = 0; i < numbersToProcess.length; ++i) {
@@ -137,6 +138,10 @@ public class Utils {
         }
         System.out.println("ERROR: getKeyWithLargestValueFromMap failed to find a key: returned -1");
         return -1;
+    }
+
+    public static int getImageWidth(){
+        return 1000; // 1000 should be replace with the size the image
     }
 
 }
