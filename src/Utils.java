@@ -4,10 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class Utils {
     /**
@@ -79,7 +76,7 @@ public class Utils {
     }
 
     /**
-     * Courtisty of the fine people at StackOverFlow
+     * Courtesy of the fine people at StackOverFlow
      * https://stackoverflow.com/questions/718554/how-to-convert-an-arraylist-containing-integers-to-primitive-int-array
      * special thanks to Jon Skeet, Marek Sebera, and Matthew Willis.
      *
@@ -97,4 +94,49 @@ public class Utils {
         }
         return ret;
     }
+
+    /**
+     * Courtesy of the fine people at StackOverFlow
+     * https://stackoverflow.com/questions/8098601/java-count-occurrence-of-each-item-in-an-array
+     * Special thanks to Kinjal
+     * @param numbersToProcess          int[] that you would like the occurances of.
+     * @return Map<Integer, Integer>    Each Key is the an int from the int[] and the Value is the number of times that int occurs in the array.
+     */
+    public static Map<Integer, Integer> countOccurrence(int[] numbersToProcess) {
+        int[] possibleNumbers = new int[100];
+        Map<Integer, Integer> result = new HashMap<Integer, Integer>();
+
+        for (int i = 0; i < numbersToProcess.length; ++i) {
+            possibleNumbers[numbersToProcess[i]] = possibleNumbers[numbersToProcess[i]] + 1;
+            result.put(numbersToProcess[i], possibleNumbers[numbersToProcess[i]]);
+        }
+        return result;
+    }
+
+    /**
+     * Courtesy of the fine people at StackOverFlow
+     * https://stackoverflow.com/questions/18065738/best-way-to-find-the-largest-value-in-a-hashmaparraylist-arraylist
+     * Special Thanks to arshajii
+     * @param map   Map<Integer, </Integer>
+     * @return int  The Key that has the largest Value int
+     */
+    public static int getKeyWithLargestValueFromMap (Map<Integer, Integer> map){
+        Integer maxKey = null;
+        int maxLen = 0;
+
+        for (Map.Entry<Integer, Integer> e : map.entrySet()) {
+            int len = e.getValue();
+
+            if (maxKey == null || len > maxLen) {
+                maxKey = e.getKey();
+                maxLen = len;
+            }
+        }
+        if(maxKey != null){
+            return maxKey;
+        }
+        System.out.println("ERROR: getKeyWithLargestValueFromMap failed to find a key: returned -1");
+        return -1;
+    }
+
 }

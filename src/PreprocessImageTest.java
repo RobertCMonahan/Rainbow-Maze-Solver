@@ -11,7 +11,7 @@ class PreproccessImageTest {
     @Test
     void outputIsBinary(){
         Path inputImagePath = get("/home/emerald/Projects/Rainbow-Maze-Solver/test-images/maze_small.jpg");
-        PreproccessImage.preproccessImage(inputImagePath, "test");
+        PreprocessImage.preprocessImage(inputImagePath, "test");
 
         Path outputImagePath = get("/home/emerald/Projects/Rainbow-Maze-Solver/test-images/test700x700.png");
 

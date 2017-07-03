@@ -4,21 +4,39 @@ import java.awt.image.IndexColorModel;
 import java.awt.image.WritableRaster;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static java.nio.file.Paths.get;
 
-public class PreproccessImage {
+public class PreprocessImage {
 
-    protected static void preproccessImage(Path inputImagePath, String outputImageName){
+    /**
+     * Process an image of a maze so that it can be solved by the algorithm.
+     * Some of the processing that occurs:
+     * -removes boarders
+     * -converts to black & white binary png
+     * -simplifies maze to reduce the number of nodes.
+     *
+     *
+     * @param inputImagePath the Path to the image you would like to process
+     * @param outputImageName the name of the output image
+     */
+    protected static void preprocessImage(Path inputImagePath, String outputImageName){
         Path outImagePath = convertImageToBinaryBlackAndWhite(inputImagePath,outputImageName);
         int wallWidth = determineWidthOfWalls(outImagePath);
 
     }
 
+    /**
+     * Converts a color image to a black & white binary png
+     *
+     * @param inputImagePath the Path to the image you would like to process
+     * @param outputImageName the name of the output image
+     * @return Path of the output image
+     */
     protected static Path convertImageToBinaryBlackAndWhite(Path inputImagePath, String outputImageName){
         // base code for convertImageToBinaryBlackAndWhite found at:
         // https://stackoverflow.com/questions/20321606/convert-2d-binary-matrix-to-black-white-image-in-java
@@ -67,49 +85,58 @@ public class PreproccessImage {
         return get("test-images/" + outputImagePathName + ".png");
     }
 
-    // simplify image
-    // find a wall determine the width and length
+
+    /**
+     * Gets the width of the walls in the maze so that the image can be simplified
+     *
+     * @param inputImagePath path to the black & white binary image that you want the wall width of
+     * @return int that is the width of the maze walls.
+     */
     protected static int determineWidthOfWalls(Path inputImagePath){
         // get image
         int[][] matrix = GetRGBFast.convertToIntMatrix(Utils.createBufferedImage(inputImagePath));
         int lineInterval = matrix.length / 6;
         int[] widths = new int[4];
-        int tempWidth = 0;
-        boolean foundWall = false;
+        widths[0] = getFirstWallWidthForRow(matrix[lineInterval * 2]);
+        widths[1] = getFirstWallWidthForRow(matrix[lineInterval * 3]);
+        widths[2] = getFirstWallWidthForRow(matrix[lineInterval * 4]);
+        widths[3] = getFirstWallWidthForRow(matrix[lineInterval * 5]);
 
-        for (int pixel : matrix[lineInterval *2]){
-            if (pixel == 1){
-                //get a width
-                tempWidth += 1;
-                foundWall = true;
+//        System.out.println("lineInterval: " + lineInterval);
+//        System.out.println(matrix[lineInterval * 2]);
+//        System.out.println("widths array: " + Arrays.toString(widths));
+//        System.out.println(Utils.countOccurrence(widths));
 
-                //widths[0] = the width you got
-            } else if (foundWall = true){
-                // make widths[0] == the width of the wall
-                //break for loop
-            }
-        }
-        for (int pixel : matrix[lineInterval * 3]){
-            if (pixel == 1){
 
-            }
-        }
-        for (int pixel : matrix[lineInterval * 4]){
-            if (pixel == 1){
-
-            }
-        }
-        for (int pixel : matrix[lineInterval * 5]){
-            if (pixel == 1){
-
-            }
-        }
+        int wallWidth = Utils.getKeyWithLargestValueFromMap(Utils.countOccurrence(widths));
 
         // compare the ints in widths
         // return the widths that have at least 2 that are the same
-
-        return width;
+        System.out.println("wallWidth: " + wallWidth);
+        return wallWidth;
     }
+
+    /**
+     *
+     * @param row
+     *
+     * @return
+     */
+    private static int getFirstWallWidthForRow(int[] row){
+        boolean foundWall = false;
+        int width = 0;
+
+        for (int pixel : row){
+            if (pixel == 0){
+                width += 1;
+                foundWall = true;
+            } else if ((pixel == 1) && (foundWall)){
+                return width;
+            }
+        }
+        return -1; // no wall was found
+    }
+
     // use the smaller of the two as a block size to work with
     // determine width and height of the output using the block size.
     // for every block
