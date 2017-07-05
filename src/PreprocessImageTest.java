@@ -28,4 +28,15 @@ class PreproccessImageTest {
         //Utils.printIntMatrix(matrix);
         assertEquals(true, isBinary, "output image contains pixels that are not 1 or 0");
     }
+
+    @Test
+    void canDetermineWallBorderPath(){
+        Path inputImagePath = get("/home/emerald/Projects/Rainbow-Maze-Solver/test-images/maze_small.jpg");
+        Path outImagePath = PreprocessImage.convertImageToBinaryBlackAndWhite(inputImagePath, "test");
+        int[] wallPathBorderWidths = PreprocessImage.determineWidthOfWallsPathsAndBorder(outImagePath);
+
+        assertArrayEquals(new int[]{7,34,38}, wallPathBorderWidths, "Widths should be: Wall==7, Path==34, Border==38" );
+    }
+
+
 }

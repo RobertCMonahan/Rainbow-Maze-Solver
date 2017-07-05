@@ -12,7 +12,6 @@ import java.util.stream.Collectors;
 import static java.nio.file.Paths.get;
 
 public class PreprocessImage {
-
     /**
      * Process an image of a maze so that it can be solved by the algorithm.
      * Some of the processing that occurs:
@@ -26,8 +25,8 @@ public class PreprocessImage {
      */
     protected static void preprocessImage(Path inputImagePath, String outputImageName){
         Path outImagePath = convertImageToBinaryBlackAndWhite(inputImagePath,outputImageName);
-        int[] wallWidth = determineWidthOfWallsPathsAndBorder(outImagePath);
-
+        int[] wallPathBorderWidths = determineWidthOfWallsPathsAndBorder(outImagePath);
+        simplifiyImage(outImagePath, wallPathBorderWidths);
     }
 
     /**
@@ -95,46 +94,30 @@ public class PreprocessImage {
     protected static int[] determineWidthOfWallsPathsAndBorder(Path inputImagePath){
         // get image
         int[][] matrix = GetRGBFast.convertToIntMatrix(Utils.createBufferedImage(inputImagePath));
-        int lineInterval = matrix.length / 8;
-        int[] widths = new int[6];
+        int numberOfRowsToCheck = 30; // this is the number of samples to take to check the paths and walls
+        int lineInterval = matrix.length / (numberOfRowsToCheck+2);
+        int[] widths = new int[numberOfRowsToCheck];
 
-        widths[0] = getWidthForRowOfPathOrWall(matrix[lineInterval * 2], 0, 1);
-        widths[1] = getWidthForRowOfPathOrWall(matrix[lineInterval * 3], 0, 1);
-        widths[2] = getWidthForRowOfPathOrWall(matrix[lineInterval * 4], 0, 1);
-        widths[3] = getWidthForRowOfPathOrWall(matrix[lineInterval * 5], 0, 1);
-        widths[4] = getWidthForRowOfPathOrWall(matrix[lineInterval * 6], 0, 1);
-        widths[5] = getWidthForRowOfPathOrWall(matrix[lineInterval * 7], 0, 1);
 
-        System.out.println("Widths" + Arrays.toString(widths));
-        int boarderWidth = Utils.getKeyWithLargestValueFromMap(Utils.countOccurrence(widths));
+        for (int i=0 ; i < numberOfRowsToCheck ; i++){
+            widths[i] = getWidthForRowOfPathOrWall(matrix[lineInterval * (i+2) ], 0, 1);
+        }
+        int borderWidth = Utils.getKeyWithLargestValueFromMap(Utils.countOccurrence(widths));
 
-        widths[0] = getWidthForRowOfPathOrWall(matrix[lineInterval * 2], boarderWidth, 0);
-        widths[1] = getWidthForRowOfPathOrWall(matrix[lineInterval * 3], boarderWidth, 0);
-        widths[2] = getWidthForRowOfPathOrWall(matrix[lineInterval * 4], boarderWidth, 0);
-        widths[3] = getWidthForRowOfPathOrWall(matrix[lineInterval * 5], boarderWidth, 0);
-        widths[4] = getWidthForRowOfPathOrWall(matrix[lineInterval * 6], boarderWidth, 0);
-        widths[5] = getWidthForRowOfPathOrWall(matrix[lineInterval * 7], boarderWidth, 0);
-
-        System.out.println("Widths" + Arrays.toString(widths));
+        for (int i=0 ; i < numberOfRowsToCheck ; i++){
+            widths[i] = getWidthForRowOfPathOrWall(matrix[lineInterval * (i+2) ], borderWidth, 0);
+        }
         int wallWidth = Utils.getKeyWithLargestValueFromMap(Utils.countOccurrence(widths));
 
-        widths[0] = getWidthForRowOfPathOrWall(matrix[lineInterval * 2], boarderWidth, 1);
-        widths[1] = getWidthForRowOfPathOrWall(matrix[lineInterval * 3], boarderWidth, 1);
-        widths[2] = getWidthForRowOfPathOrWall(matrix[lineInterval * 4], boarderWidth, 1);
-        widths[3] = getWidthForRowOfPathOrWall(matrix[lineInterval * 5], boarderWidth, 1);
-        widths[4] = getWidthForRowOfPathOrWall(matrix[lineInterval * 6], boarderWidth, 1);
-        widths[5] = getWidthForRowOfPathOrWall(matrix[lineInterval * 7], boarderWidth, 1);
-
-        System.out.println("Widths" + Arrays.toString(widths));
+        for (int i=0 ; i < numberOfRowsToCheck ; i++){
+            widths[i] = getWidthForRowOfPathOrWall(matrix[lineInterval * (i+2) ], borderWidth, 1);
+        }
         int pathWidth = Utils.getKeyWithLargestValueFromMap(Utils.countOccurrence(widths));
 
         System.out.println("wallWidth: " + wallWidth);
         System.out.println("pathWidth: " + pathWidth);
-        System.out.println("boarderWidth: " + boarderWidth);
-        return new int[]{wallWidth, pathWidth, boarderWidth};
-
-        // the path width can give the woung number to easily, i need to figure out a better way to determine it.
-        // it should be the smallest width that also occurs the most, maybe give a wight of 1 or 2 to the smallest number
+        System.out.println("borderWidth: " + borderWidth);
+        return new int[]{wallWidth, pathWidth, borderWidth};
     }
 
     /**
@@ -166,6 +149,24 @@ public class PreprocessImage {
     // for every block
     // determine if there are more black or white pixels in the block
 
-    // cut off sides
+    /*
+    - remove borders
+    - divide up image by blocks of the size of the walls e.g. 7x7 blocks
+        - convert each block into either a 1 or 0
+            - make a new matrix for the new output image
+            - count up 1 & 0 in each block
+            - which ever there are more of make the corresponding block in the new matrix that color
+            - go to next block
+           `- when there are no blocks left
+                - create an image from the new matrix
+
+     this may suffer from a gerrymandering problem where there is a wall but the path is the majority on both blocks and
+     when it is converted the wall is destroyed.
+     */
+
+    protected static void simplifiyImage(Path image, int[] wallPathBorderWidths){
+
+
+    }
 
 }
