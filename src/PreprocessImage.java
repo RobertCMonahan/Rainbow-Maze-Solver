@@ -122,10 +122,10 @@ public class PreprocessImage {
 
     /**
      *
-     * @param row
-     * @param pixelsToSkip
+     * @param row           the row (int[]) that you want to figure out the width of a wall or path
+     * @param pixelsToSkip  the number of pixels at the start you want to skip, this should be the size of the border
      * @param pathOrWall    path = 1, wall = 0
-     * @return
+     * @return              int that is the width in pixels of the wall or path
      */
     private static int getWidthForRowOfPathOrWall(int[] row, int pixelsToSkip, int pathOrWall){
         boolean foundWall = false;
@@ -151,13 +151,14 @@ public class PreprocessImage {
 
     /*
     - remove borders
-    - divide up image by blocks of the size of the walls e.g. 7x7 blocks
+        - skip the size of the border
+    - divide up image by blocks of the size of the greatest common denominator of the walls and path
         - convert each block into either a 1 or 0
             - make a new matrix for the new output image
             - count up 1 & 0 in each block
             - which ever there are more of make the corresponding block in the new matrix that color
             - go to next block
-           `- when there are no blocks left
+            - when there are no blocks left
                 - create an image from the new matrix
 
      this may suffer from a gerrymandering problem where there is a wall but the path is the majority on both blocks and
@@ -165,8 +166,9 @@ public class PreprocessImage {
      */
 
     protected static void simplifiyImage(Path image, int[] wallPathBorderWidths){
-
-
+        // get the greatest common denomnator from the wallpath use that as the new pixel
+        // skip borders
+        int GCF = Utils.getGreatestCommonFactor(wallPathBorderWidths[0], wallPathBorderWidths[1]);
     }
 
 }

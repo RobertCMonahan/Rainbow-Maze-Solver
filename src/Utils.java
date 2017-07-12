@@ -144,4 +144,37 @@ public class Utils {
         return 1000; // 1000 should be replace with the size the image
     }
 
+    /**
+     * find the greatest common factor of two integers given
+     * @param a int
+     * @param b int
+     * @return the greatest common factor of the two given numbers
+     */
+    public static int getGreatestCommonFactor(int a, int b){
+        int subtrahend; // value to subtract
+        int minuend; // value to subtract from
+        int difference = 1;
+
+        if(a > b){
+            minuend = a;
+            subtrahend = b;
+        } else {
+            minuend = b;
+            subtrahend = a;
+        }
+
+        while (difference > 0){
+            difference = minuend - subtrahend;
+
+            if (subtrahend > difference){
+                minuend = subtrahend;
+                subtrahend = difference;
+            } else {
+                minuend = difference;
+            }
+
+        }
+
+        return minuend;
+    }
 }
