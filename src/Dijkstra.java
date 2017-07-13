@@ -1,4 +1,4 @@
-import java.nio.file.Path;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -74,7 +74,6 @@ class Dijkstra {
                     neighborNode.setDistanceFromStart(neighborsDistanceFromStart);
                     neighborNode.setParent(evaluationNode);
                     unsettledNodes.add(neighborNode);
-                    neighborNode.setParent(evaluationNode);
                     drawing.colorLine(evaluationNode.getPosition()[1], evaluationNode.getPosition()[0], neighborNode.getPosition()[1], neighborNode.getPosition()[0]);
                 }
             }
