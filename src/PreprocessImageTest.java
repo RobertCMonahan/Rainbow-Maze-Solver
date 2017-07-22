@@ -20,7 +20,28 @@ class PreproccessImageTest {
         for (int[] line : matrix){
             for (int pixel: line){
                 if ((pixel >= 2)||(pixel <= -1)){
-                // if pixel is not 0 or 1
+                    // if pixel is not 0 or 1
+                    isBinary = false;
+                }
+            }
+        }
+        //Utils.printIntMatrix(matrix);
+        assertEquals(true, isBinary, "output image contains pixels that are not 1 or 0");
+    }
+
+    @Test
+    void outputIsBinary2(){
+        Path inputImagePath = get("/home/emerald/Projects/Rainbow-Maze-Solver/test-images/simple_600x600.png");
+        PreprocessImage.preprocessImage(inputImagePath, "test");
+
+        Path outputImagePath = get("/home/emerald/Projects/Rainbow-Maze-Solver/test-images/simple_600x600.png");
+
+        boolean isBinary = true;
+        int[][] matrix = GetRGBFast.convertToIntMatrix(Utils.createBufferedImage(outputImagePath));
+        for (int[] line : matrix){
+            for (int pixel: line){
+                if ((pixel >= 2)||(pixel <= -1)){
+                    // if pixel is not 0 or 1
                     isBinary = false;
                 }
             }

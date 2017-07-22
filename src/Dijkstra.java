@@ -16,7 +16,7 @@ class Dijkstra {
 
         // Set up drawing for image output of the solution
         drawing.setIncrement(3);
-        drawing.createColorImage(maze);
+        //drawing.createColorImage(maze);
         drawing.setOutputImagePath("Dijkstra_" + maze.getMazeMatrixLength());
 
         // Set the maze exit, the bottom of the input image in this case

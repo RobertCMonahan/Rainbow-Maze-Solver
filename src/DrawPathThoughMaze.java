@@ -20,9 +20,8 @@ public class DrawPathThoughMaze {
     private int greenIncrement = -increment;
     private String imagePathName;
 
-    public void createColorImage(Maze maze) {
+    public void createColorImage(int[][] matrix) {
         final int WHITE = 1;
-        int[][] matrix = maze.getMazeMatrix();
         bufferedImage = new BufferedImage(matrix.length, matrix[0].length, BufferedImage.TYPE_INT_RGB);
 
         for (int y = 0; y < matrix.length; y++) {
