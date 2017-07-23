@@ -22,7 +22,7 @@ public class DrawPathThoughMaze {
 
     public void createColorImage(int[][] matrix) {
         final int WHITE = 1;
-        bufferedImage = new BufferedImage(matrix.length, matrix[0].length, BufferedImage.TYPE_INT_RGB);
+        bufferedImage = new BufferedImage(matrix[0].length, matrix.length, BufferedImage.TYPE_INT_RGB);
 
         for (int y = 0; y < matrix.length; y++) {
             for (int x = 0; x < matrix[y].length; x++) {

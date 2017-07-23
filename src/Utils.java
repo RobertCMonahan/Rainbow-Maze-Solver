@@ -141,7 +141,7 @@ public class Utils {
     }
 
     public static int getImageWidth(){
-        return 1000; // 1000 should be replace with the size the image
+        return 10000; // 1000 should be replace with the size the image
     }
 
     /**

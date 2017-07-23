@@ -83,7 +83,7 @@ class AStar {
 
     /**
      * get neighbors and evaluate if they can be added to the unsettled list
-     * @param evaluationNode
+     * @param evaluationNode node that you want to put though A*
      */
     private void evaluateNeighbors(int[] evaluationNode) {
         for (int[] neighborNode : getArrayOfNeighborNodes(evaluationNode)) {
@@ -101,23 +101,6 @@ class AStar {
                     drawing.colorLine(evaluationNode[0], evaluationNode[1], neighborNode[0], neighborNode[1]);
                 }
         }
-    }
-
-    /**
-     * searches an arraylist of int[] and checks each element in the list if int[0] matches the x value && if int[1]
-     * matches the y value. If there is a match then true is returned, if no match is found false is returned
-     * @param arraylist the list of int[] that you want to search
-     * @param x the value your looking for in the position int[0]
-     * @param y the value your looking for in the position int[1]
-     * @return true or false depending if the value was found.
-     */
-    private boolean arraylistContainsElementWithIntsXY( List<int[]> arraylist, int x, int y ){
-        for (int[] node : arraylist){
-            if((node[0] == x) && (node[1] == y)){
-                return true;
-            }
-        }
-        return false;
     }
 
     /**
@@ -193,6 +176,7 @@ class AStar {
         int[] currentNode = exitNode;
         while (currentNode[2] > 0) {
             int[] parentNode = getParentNode(currentNode, settledNodes);
+            assert parentNode != null;
             drawing.colorLine(currentNode[0], currentNode[1], parentNode[0], parentNode[1]);
             currentNode = parentNode;
         }
@@ -204,7 +188,7 @@ class AStar {
         if (index >= 0){
             return settledNodes.get(index);
         }
-        return new int[]{};
+        return null;
     }
 
     private int[] autoFindStart() {

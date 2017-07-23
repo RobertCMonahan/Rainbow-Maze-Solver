@@ -41,49 +41,53 @@ public class PreprocessImage {
         // https://stackoverflow.com/questions/20321606/convert-2d-binary-matrix-to-black-white-image-in-java
         // special thanks to bcorso
 
-        // get input image
-        int[][] matrix = GetRGBFast.convertToIntMatrix(Utils.createBufferedImage(inputImagePath));
+        if (!imageIsInBinaryFormat(inputImagePath)) {
 
-        // convert image into binary black and white data
-        int[] binaryImageData = new int[matrix.length * matrix[0].length];
-        int atIndex = 0;
-        for (int[] line : matrix){
-            for (int pixel: line){
-                if (Math.abs(pixel) <= 8388607){
-                    binaryImageData[atIndex] = 1;
-                } else if (Math.abs(pixel) >=8388608){
-                    binaryImageData[atIndex] = 0;
+            // get input image
+            int[][] matrix = GetRGBFast.convertToIntMatrix(Utils.createBufferedImage(inputImagePath));
+            Utils.printIntMatrix(matrix);
+
+            // convert image into binary black and white data
+            int[] binaryImageData = new int[matrix.length * matrix[0].length];
+            int atIndex = 0;
+            for (int[] line : matrix) {
+                for (int pixel : line) {
+                    if (Math.abs(pixel) <= 4388607) {
+                        binaryImageData[atIndex] = 1;
+                    } else if (Math.abs(pixel) >= 4388608) {
+                        binaryImageData[atIndex] = 0;
+                    }
+                    atIndex++;
                 }
-                atIndex += 1;
             }
+
+            // prepare output variables
+            String outputImagePathName = outputImageName;
+            int h = matrix.length, w = matrix[0].length;
+            outputImagePathName += String.valueOf(w) + "x" + String.valueOf(h);
+
+            // create the binary mapping
+            byte BLACK = (byte) 0, WHITE = (byte) 1;
+            byte[] map = {BLACK, WHITE};
+            IndexColorModel icm = new IndexColorModel(1, 1, map, map, map);
+
+            // create image from color model and data
+            WritableRaster raster = icm.createCompatibleWritableRaster(w, h);
+            raster.setPixels(0, 0, w, h, binaryImageData);
+            BufferedImage bi = new BufferedImage(icm, raster, false, null);
+
+            // output to a file
+            try {
+                ImageIO.write(bi, "png", new File("test-images/" + outputImagePathName + ".png"));
+                System.out.println("Created black and white image at: test-images/" + outputImagePathName + ".png");
+            } catch (IOException ioe) {
+                System.out.println(ioe.toString());
+                System.out.println("Could not find file " + Arrays.toString(binaryImageData));
+            }
+            return get("test-images/" + outputImagePathName + ".png");
         }
-
-        // prepare output variables
-        String outputImagePathName = outputImageName;
-        int w = matrix.length, h = matrix[0].length;
-        outputImagePathName += String.valueOf(w) + "x" + String.valueOf(h);
-
-        // create the binary mapping
-        byte BLACK = (byte)0, WHITE = (byte)1;
-        byte[] map = {BLACK, WHITE};
-        IndexColorModel icm = new IndexColorModel(1, 1, map, map, map);
-
-        // create image from color model and data
-        WritableRaster raster = icm.createCompatibleWritableRaster(w, h);
-        raster.setPixels(0, 0, w, h, binaryImageData);
-        BufferedImage bi = new BufferedImage(icm, raster, false, null);
-
-        // output to a file
-        try {
-            ImageIO.write(bi, "png", new File("test-images/" + outputImagePathName + ".png"));
-            System.out.println("Created black and white image at: test-images/" + outputImagePathName + ".png");
-        } catch(IOException ioe){
-            System.out.println (ioe.toString());
-            System.out.println("Could not find file " + Arrays.toString(binaryImageData));
-        }
-        return get("test-images/" + outputImagePathName + ".png");
+        return inputImagePath;
     }
-
 
     /**
      * Gets the width of the walls in the maze so that the image can be simplified
@@ -142,6 +146,24 @@ public class PreprocessImage {
             }
         }
         return -1; // no wall was found
+    }
+
+    /**
+     * Tests the image to see if it is in a binary format or not
+     * @param imagePath the image you would like to test
+     * @return true if the images is binary, false if not
+     */
+    private static boolean imageIsInBinaryFormat( Path imagePath){
+        int[][] matrix = GetRGBFast.convertToIntMatrix(Utils.createBufferedImage(imagePath));
+        for (int[] line : matrix){
+            for (int pixel: line){
+                if ((pixel >= 2)||(pixel <= -1)){
+                    // if pixel is not 0 or 1
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     // use the smaller of the two as a block size to work with

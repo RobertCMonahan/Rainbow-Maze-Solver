@@ -8,20 +8,35 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class AStarTest {
 
 
-    @Test
-    void testSearchSimple() {
-        Path simple = Paths.get("test-images/simple_600x600.png");
-        AStar dijkstraSearch = new AStar();
-        boolean reachedEnd = dijkstraSearch.search(simple);
-        assertEquals(true, reachedEnd, "simple_600x600.png");
-    }
+//    @Test
+//    void testSearch2() {
+//        Path simple = Paths.get("test-images/2_bin_640x480.png");
+//        AStar dijkstraSearch = new AStar();
+//        boolean reachedEnd = dijkstraSearch.search(simple);
+//        assertEquals(true, reachedEnd, "2_bin_640x480.png");
+//    }
+
+//    @Test
+//    void testSearch3() {
+//        Path diagonal = Paths.get("test-images/3_bin_1446x1147.png");
+//        AStar dijkstraSearch = new AStar();
+//        boolean reachedEnd = dijkstraSearch.search(diagonal);
+//        assertEquals(true, reachedEnd, "3_bin_1446x1147.png");
+//    }
 
     @Test
-    void testSearchDiagonal() {
-        Path diagonal = Paths.get("test-images/test615x614.png");
+    void testSearch8() {
+        Path diagonal = Paths.get("test-images/8.png");
         AStar dijkstraSearch = new AStar();
         boolean reachedEnd = dijkstraSearch.search(diagonal);
-        assertEquals(true, reachedEnd, "test615x614.png");
+        assertEquals(true, reachedEnd, "8.png");
+    }
+    @Test
+    void testSearch9() {
+        Path diagonal = Paths.get("test-images/9.gif");
+        AStar dijkstraSearch = new AStar();
+        boolean reachedEnd = dijkstraSearch.search(diagonal);
+        assertEquals(true, reachedEnd, "9.gif");
     }
 
     @Test
@@ -65,7 +80,7 @@ class AStarTest {
     }
 
     @Test
-    void testSearchNonStardard() {
+    void testSearchNonStandard() {
         Path nonStandard = Paths.get("test-images/test700x700.png");
         AStar dijkstraSearch = new AStar();
         boolean reachedEnd = dijkstraSearch.search(nonStandard);

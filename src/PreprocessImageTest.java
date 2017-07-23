@@ -9,11 +9,11 @@ import static org.junit.jupiter.api.Assertions.*;
 class PreproccessImageTest {
 
     @Test
-    void outputIsBinary(){
-        Path inputImagePath = get("/home/emerald/Projects/Rainbow-Maze-Solver/test-images/maze_small.jpg");
-        PreprocessImage.preprocessImage(inputImagePath, "test");
+    void imageConvertsToBinary01(){
+        Path inputImagePath = get("/home/emerald/Projects/Rainbow-Maze-Solver/test-images/1.gif");
+        String outputImageName = "1_bin_";
 
-        Path outputImagePath = get("/home/emerald/Projects/Rainbow-Maze-Solver/test-images/test700x700.png");
+        Path outputImagePath = PreprocessImage.convertImageToBinaryBlackAndWhite(inputImagePath, outputImageName);
 
         boolean isBinary = true;
         int[][] matrix = GetRGBFast.convertToIntMatrix(Utils.createBufferedImage(outputImagePath));
@@ -25,16 +25,15 @@ class PreproccessImageTest {
                 }
             }
         }
-        //Utils.printIntMatrix(matrix);
         assertEquals(true, isBinary, "output image contains pixels that are not 1 or 0");
     }
 
     @Test
-    void outputIsBinary2(){
-        Path inputImagePath = get("/home/emerald/Projects/Rainbow-Maze-Solver/test-images/simple_600x600.png");
-        PreprocessImage.preprocessImage(inputImagePath, "test");
+    void imageConvertsToBinary02(){
+        Path inputImagePath = get("/home/emerald/Projects/Rainbow-Maze-Solver/test-images/2.png");
+        String outputImageName = "2_bin_";
 
-        Path outputImagePath = get("/home/emerald/Projects/Rainbow-Maze-Solver/test-images/simple_600x600.png");
+        Path outputImagePath = PreprocessImage.convertImageToBinaryBlackAndWhite(inputImagePath, outputImageName);
 
         boolean isBinary = true;
         int[][] matrix = GetRGBFast.convertToIntMatrix(Utils.createBufferedImage(outputImagePath));
@@ -46,9 +45,150 @@ class PreproccessImageTest {
                 }
             }
         }
-        //Utils.printIntMatrix(matrix);
         assertEquals(true, isBinary, "output image contains pixels that are not 1 or 0");
     }
+
+    @Test
+    void imageConvertsToBinary03(){
+        Path inputImagePath = get("/home/emerald/Projects/Rainbow-Maze-Solver/test-images/3.jpeg");
+        String outputImageName = "3_bin_";
+
+        Path outputImagePath = PreprocessImage.convertImageToBinaryBlackAndWhite(inputImagePath, outputImageName);
+
+        boolean isBinary = true;
+        int[][] matrix = GetRGBFast.convertToIntMatrix(Utils.createBufferedImage(outputImagePath));
+        for (int[] line : matrix){
+            for (int pixel: line){
+                if ((pixel >= 2)||(pixel <= -1)){
+                    // if pixel is not 0 or 1
+                    isBinary = false;
+                }
+            }
+        }
+        assertEquals(true, isBinary, "output image contains pixels that are not 1 or 0");
+    }
+
+    @Test
+    void imageConvertsToBinary04(){
+        Path inputImagePath = get("/home/emerald/Projects/Rainbow-Maze-Solver/test-images/4.gif");
+        String outputImageName = "4_bin_";
+
+        Path outputImagePath = PreprocessImage.convertImageToBinaryBlackAndWhite(inputImagePath, outputImageName);
+
+        boolean isBinary = true;
+        int[][] matrix = GetRGBFast.convertToIntMatrix(Utils.createBufferedImage(outputImagePath));
+        for (int[] line : matrix){
+            for (int pixel: line){
+                if ((pixel >= 2)||(pixel <= -1)){
+                    // if pixel is not 0 or 1
+                    isBinary = false;
+                }
+            }
+        }
+        assertEquals(true, isBinary, "output image contains pixels that are not 1 or 0");
+    }
+
+    @Test
+    void imageConvertsToBinary05(){
+        Path inputImagePath = get("/home/emerald/Projects/Rainbow-Maze-Solver/test-images/5.jpeg");
+        String outputImageName = "5_bin_";
+
+        Path outputImagePath = PreprocessImage.convertImageToBinaryBlackAndWhite(inputImagePath, outputImageName);
+
+        boolean isBinary = true;
+        int[][] matrix = GetRGBFast.convertToIntMatrix(Utils.createBufferedImage(outputImagePath));
+        for (int[] line : matrix){
+            for (int pixel: line){
+                if ((pixel >= 2)||(pixel <= -1)){
+                    // if pixel is not 0 or 1
+                    isBinary = false;
+                }
+            }
+        }
+        assertEquals(true, isBinary, "output image contains pixels that are not 1 or 0");
+    }
+
+    @Test
+    void imageConvertsToBinary06(){
+        Path inputImagePath = get("/home/emerald/Projects/Rainbow-Maze-Solver/test-images/6.png");
+        String outputImageName = "6_bin_";
+
+        Path outputImagePath = PreprocessImage.convertImageToBinaryBlackAndWhite(inputImagePath, outputImageName);
+
+        boolean isBinary = true;
+        int[][] matrix = GetRGBFast.convertToIntMatrix(Utils.createBufferedImage(outputImagePath));
+        for (int[] line : matrix){
+            for (int pixel: line){
+                if ((pixel >= 2)||(pixel <= -1)){
+                    // if pixel is not 0 or 1
+                    isBinary = false;
+                }
+            }
+        }
+        assertEquals(true, isBinary, "output image contains pixels that are not 1 or 0");
+    }
+
+    @Test
+    void imageConvertsToBinary07(){
+        Path inputImagePath = get("/home/emerald/Projects/Rainbow-Maze-Solver/test-images/7.jpg");
+        String outputImageName = "7_bin_";
+
+        Path outputImagePath = PreprocessImage.convertImageToBinaryBlackAndWhite(inputImagePath, outputImageName);
+
+        boolean isBinary = true;
+        int[][] matrix = GetRGBFast.convertToIntMatrix(Utils.createBufferedImage(outputImagePath));
+        for (int[] line : matrix){
+            for (int pixel: line){
+                if ((pixel >= 2)||(pixel <= -1)){
+                    // if pixel is not 0 or 1
+                    isBinary = false;
+                }
+            }
+        }
+        assertEquals(true, isBinary, "output image contains pixels that are not 1 or 0");
+    }
+
+    @Test
+    void imageConvertsToBinary08(){
+        Path inputImagePath = get("/home/emerald/Projects/Rainbow-Maze-Solver/test-images/8.png");
+        String outputImageName = "8_bin_";
+
+        Path outputImagePath = PreprocessImage.convertImageToBinaryBlackAndWhite(inputImagePath, outputImageName);
+
+        boolean isBinary = true;
+        int[][] matrix = GetRGBFast.convertToIntMatrix(Utils.createBufferedImage(outputImagePath));
+        for (int[] line : matrix){
+            for (int pixel: line){
+                if ((pixel >= 2)||(pixel <= -1)){
+                    // if pixel is not 0 or 1
+                    isBinary = false;
+                }
+            }
+        }
+        assertEquals(true, isBinary, "output image contains pixels that are not 1 or 0");
+    }
+
+    @Test
+    void imageConvertsToBinary09(){
+        Path inputImagePath = get("/home/emerald/Projects/Rainbow-Maze-Solver/test-images/9.gif");
+        String outputImageName = "9_bin_";
+
+        Path outputImagePath = PreprocessImage.convertImageToBinaryBlackAndWhite(inputImagePath, outputImageName);
+
+        boolean isBinary = true;
+        int[][] matrix = GetRGBFast.convertToIntMatrix(Utils.createBufferedImage(outputImagePath));
+        for (int[] line : matrix){
+            for (int pixel: line){
+                if ((pixel >= 2)||(pixel <= -1)){
+                    // if pixel is not 0 or 1
+                    isBinary = false;
+                }
+            }
+        }
+        assertEquals(true, isBinary, "output image contains pixels that are not 1 or 0");
+    }
+
+
 
     @Test
     void canDetermineWallBorderPath(){
